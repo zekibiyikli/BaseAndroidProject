@@ -1,0 +1,113 @@
+package com.android.baseapp.core
+
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.android.baseapp.data.local.LocalSharedPreferences
+import com.android.baseapp.data.server.MainRepo
+import com.android.baseapp.data.server.RetrofitModule
+import com.android.baseapp.model.ErrorModel
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import kotlin.coroutines.CoroutineContext
+
+abstract class BaseViewModel<out REPO : BaseRepository> : ViewModel(),CoroutineScope {
+
+    //Variables
+    open val repo= MainRepo(RetrofitModule.api)
+    val localData: LocalSharedPreferences by lazy {
+        LocalSharedPreferences.getInstance()
+    }
+    val showProgress: MutableLiveData<Boolean> = MutableLiveData()
+    val generalError: MutableLiveData<ErrorModel> = MutableLiveData()
+    private val job= Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.Main
+
+    //Observers
+    val coroutineExceptionHandler: CoroutineExceptionHandler? = try {
+        CoroutineExceptionHandler { _, throwable ->
+            Log.e("Zeki",throwable.toString())
+            if (throwable is HttpException) {
+
+            }
+        }
+    } catch (e: Exception) {
+        null
+    }
+
+    //Functions
+    inline fun sendRequest(
+        crossinline block: suspend CoroutineScope.() -> Unit
+    ) {
+        if (coroutineExceptionHandler != null) {
+            viewModelScope.launch(coroutineExceptionHandler) {
+                showProgress.postValue(true)
+                try {
+                    block()
+                } finally {
+                    showProgress.postValue(false)
+                }
+            }
+        } else {
+            Log.e("Zeki","errorrrr")
+            val errorModel = errorDataModelFillUp("Error", "")
+            generalError.postValue(errorModel)
+        }
+    }
+
+    inline fun sendRequestWithError(
+        crossinline block: suspend CoroutineScope.() -> Unit,
+        crossinline errorHandler: suspend CoroutineScope.(ErrorModel?) -> Unit
+    ) {
+        viewModelScope.launch() {
+            showProgress.postValue(true)
+            try {
+                block()
+            }catch (e:HttpException){
+                val errorResult =e.response()?.errorBody()?.string()
+                val type = object : TypeToken<ErrorModel>() {}.rawType
+                val obj: ErrorModel? = Gson().fromJson<ErrorModel>(errorResult, type)
+                errorHandler(obj)
+            } finally {
+                showProgress.postValue(false)
+            }
+        }
+    }
+
+    inline fun sendRequestWithoutLoading(
+        crossinline block: suspend CoroutineScope.() -> Unit
+    ) {
+        if (coroutineExceptionHandler != null) {
+            viewModelScope.launch(coroutineExceptionHandler) {
+                try {
+                    block()
+                } finally {
+
+                }
+            }
+        } else {
+            val errorModel = errorDataModelFillUp("Error", "")
+            generalError.postValue(errorModel)
+        }
+    }
+
+
+    fun errorDataModelFillUp(code:String,message: String): ErrorModel {
+        return ErrorModel(code,message)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
+    }
+
+
+}

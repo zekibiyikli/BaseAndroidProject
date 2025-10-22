@@ -1,0 +1,102 @@
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    kotlin("kapt")
+    kotlin("plugin.parcelize")
+    //alias(libs.plugins.hilt)
+}
+
+var versionMajor = 0
+var versionMinor = 0
+var versionPatch = 1
+
+//var keystorePropertiesFile = rootProject.file("ext.gradle")
+//var keystoreProperties = Properties()
+//keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+
+android {
+    namespace = "com.android.baseapp"
+    compileSdk = 34
+
+    defaultConfig {
+        applicationId = "com.android.baseapp"
+        minSdk = 28
+        targetSdk = 34
+        versionCode =((versionMajor * 100000)+ (versionMinor * 1000)+ (versionPatch * 10))
+        versionName ="${versionMajor}.${versionMinor}.${versionPatch}"
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+    /*
+    signingConfigs {
+        create("MySigningConfig") {
+            keyAlias = "Answerly"
+            keyPassword = "UnhUM6CrXcGK"
+            storeFile = file("../keystore/keystore")
+            storePassword = "UnhUM6CrXcGK"
+        }
+    }*/
+
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            //signingConfig = signingConfigs["MySigningConfig"]
+            versionNameSuffix= "_release"
+        }
+        debug {
+            isMinifyEnabled = false
+            versionNameSuffix= "_dev"
+        }
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+        buildConfig = true
+    }
+}
+
+dependencies {
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.activity)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    implementation(kotlin("reflect"))
+    //Lottie
+    implementation(libs.lottie)
+    //KotPref
+    implementation(libs.kotpref)
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.convertergson)
+    implementation(libs.okhttp3)
+    implementation(libs.okhttp3.logging.interceptor)
+    //Coroutines
+    implementation(libs.coroutines)
+    //Glide
+    implementation(libs.glide)
+    //Room
+    implementation(libs.room)
+    kapt(libs.room.compiler)
+    //Hilt
+    //implementation(libs.hilt)
+    //kapt(libs.hilt.compiler)
+    //kapt(libs.hilt.navigation)
+    //Security
+    implementation(libs.androidx.security)
+}
