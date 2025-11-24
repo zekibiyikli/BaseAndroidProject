@@ -16,15 +16,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseViewModel<out REPO : BaseRepository> : ViewModel(),CoroutineScope {
+abstract class BaseViewModel<R : BaseRepository>() : ViewModel(), CoroutineScope {
 
     //Variables
-    open val repo= MainRepo(RetrofitModule.api)
-    val localData: LocalSharedPreferences by lazy {
-        LocalSharedPreferences.getInstance()
-    }
     val showProgress: MutableLiveData<Boolean> = MutableLiveData()
     val generalError: MutableLiveData<ErrorModel> = MutableLiveData()
     private val job= Job()

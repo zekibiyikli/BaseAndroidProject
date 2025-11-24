@@ -4,7 +4,9 @@ import android.widget.TextView
 import com.android.baseapp.R
 import com.android.baseapp.core.BaseFragment
 import com.android.baseapp.databinding.FragmentNotificationsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NotificationsFragment : BaseFragment<FragmentNotificationsBinding, NotificationsViewModel>(
     NotificationsViewModel::class
 ) {

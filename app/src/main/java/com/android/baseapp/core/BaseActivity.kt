@@ -8,9 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProvider
 import com.android.baseapp.data.local.LocalSharedPreferences
+import javax.inject.Inject
 import kotlin.reflect.KClass
 
-abstract class BaseActivity<VB : ViewDataBinding, BVM : BaseViewModel<BaseRepository>>(
+abstract class BaseActivity<VB : ViewDataBinding, BVM : BaseViewModel<*>>(
     viewModelClass: KClass<BVM>
 ) : AppCompatActivity() {
 
@@ -18,12 +19,14 @@ abstract class BaseActivity<VB : ViewDataBinding, BVM : BaseViewModel<BaseReposi
     protected open val binding: VB by lazy {
         DataBindingUtil.setContentView(this, getLayoutId)
     }
+
     protected open val viewModel: BVM by lazy {
         ViewModelProvider(this)[viewModelClass.java]
     }
-    val localData by lazy {
-        LocalSharedPreferences.getInstance()
-    }
+
+    @Inject
+    lateinit var localData: LocalSharedPreferences
+
     abstract val getLayoutId: Int
 
     //Lifecycles

@@ -1,12 +1,17 @@
 package com.android.baseapp.data.server
 
+import com.android.baseapp.data.local.LocalSharedPreferences
 import okhttp3.Interceptor
 import okhttp3.Response
+import javax.inject.Inject
 
-class UserTokenHeader : Interceptor {
+class UserTokenHeader @Inject constructor(
+    private val localData: LocalSharedPreferences
+) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val originalRequest = chain.request()
+        val token=localData.userToken
         val newRequest = originalRequest.newBuilder()
             .addHeader(KEY_CONTENT_TYPE, HEADER_CONTENT_TYPE)
             .header("authorization", Config.HEADER_TOKEN) // Header ekle

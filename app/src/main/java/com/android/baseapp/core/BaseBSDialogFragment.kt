@@ -12,23 +12,19 @@ import androidx.lifecycle.ViewModelProvider
 import com.android.baseapp.R
 import com.android.baseapp.data.local.LocalSharedPreferences
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import javax.inject.Inject
 import kotlin.reflect.KClass
 
 //Bottom Sheet Dialog Fragment
-open class BaseBSDialogFragment <VB : ViewDataBinding, BVM : BaseViewModel<BaseRepository>>(
-    layoutId: Int,
-    viewModelClass: KClass<BVM>
+open class BaseBSDialogFragment <VB : ViewDataBinding>(
+    layoutId: Int
 ) : BottomSheetDialogFragment() {
 
-    protected open val viewModel: BVM by lazy {
-        ViewModelProvider(this)[viewModelClass.java]
-    }
     open val binding: VB by lazy {
         DataBindingUtil.inflate(layoutInflater, layoutId, null, false)
     }
-    val localData by lazy {
-        LocalSharedPreferences.getInstance()
-    }
+    @Inject
+    lateinit var localData: LocalSharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -4,7 +4,10 @@ import android.widget.TextView
 import com.android.baseapp.R
 import com.android.baseapp.core.BaseFragment
 import com.android.baseapp.databinding.FragmentDashboardBinding
+import com.android.baseapp.ui.fragment.home.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewModel>(
     DashboardViewModel::class
 ) {
@@ -28,7 +31,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
     override fun initObservers() {
         super.initObservers()
-        with(viewModel){
+        with(view){
 
         }
     }

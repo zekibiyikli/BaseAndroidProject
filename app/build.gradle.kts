@@ -3,12 +3,12 @@ plugins {
     alias(libs.plugins.kotlin.android)
     kotlin("kapt")
     kotlin("plugin.parcelize")
-    //alias(libs.plugins.hilt)
+    alias(libs.plugins.hilt)
 }
 
-var versionMajor = 0
+var versionMajor = 1
 var versionMinor = 0
-var versionPatch = 1
+var versionPatch = 0
 
 //var keystorePropertiesFile = rootProject.file("ext.gradle")
 //var keystoreProperties = Properties()
@@ -16,12 +16,12 @@ var versionPatch = 1
 
 android {
     namespace = "com.android.baseapp"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.android.baseapp"
         minSdk = 28
-        targetSdk = 34
+        targetSdk = 36
         versionCode =((versionMajor * 100000)+ (versionMinor * 1000)+ (versionPatch * 10))
         versionName ="${versionMajor}.${versionMinor}.${versionPatch}"
 
@@ -30,10 +30,10 @@ android {
     /*
     signingConfigs {
         create("MySigningConfig") {
-            keyAlias = "Answerly"
-            keyPassword = "UnhUM6CrXcGK"
+            keyAlias = "BaseApp"
+            keyPassword = "KeyPassword"
             storeFile = file("../keystore/keystore")
-            storePassword = "UnhUM6CrXcGK"
+            storePassword = "KeyPassword"
         }
     }*/
 
@@ -53,8 +53,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
+        }
     }
     buildFeatures {
         viewBinding = true
@@ -94,9 +96,9 @@ dependencies {
     implementation(libs.room)
     kapt(libs.room.compiler)
     //Hilt
-    //implementation(libs.hilt)
-    //kapt(libs.hilt.compiler)
-    //kapt(libs.hilt.navigation)
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
+    kapt(libs.hilt.navigation)
     //Security
     implementation(libs.androidx.security)
 }

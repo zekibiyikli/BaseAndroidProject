@@ -5,9 +5,15 @@ import com.android.baseapp.core.BaseRepository
 import com.android.baseapp.core.BaseViewModel
 import com.android.baseapp.data.flow.ApiResult
 import com.android.baseapp.data.flow.toResultFlow
+import com.android.baseapp.data.server.MainRepo
 import com.android.baseapp.model.response.StateUsaPriceResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class HomeViewModel : BaseViewModel<BaseRepository>() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    val repo: MainRepo
+) : BaseViewModel<BaseRepository>(){
 
     var mutableStateUsaPrice: MutableLiveData<ApiResult<StateUsaPriceResponse>>? = MutableLiveData<ApiResult<StateUsaPriceResponse>>()
     fun getStateUsaPrice(state:String){

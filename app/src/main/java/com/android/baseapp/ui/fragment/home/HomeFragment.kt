@@ -10,7 +10,9 @@ import com.android.baseapp.data.flow.ApiResultHandler
 import com.android.baseapp.databinding.FragmentHomeBinding
 import com.android.baseapp.ext.notNullObserver
 import com.android.baseapp.model.response.StateUsaPriceResponse
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     HomeViewModel::class
 ) {

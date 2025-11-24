@@ -10,6 +10,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.android.baseapp.data.local.LocalSharedPreferences
+import javax.inject.Inject
 import kotlin.reflect.KClass
 
 abstract class BaseFragment<VB : ViewDataBinding, out BVM : BaseViewModel<BaseRepository>>(
@@ -24,9 +25,9 @@ abstract class BaseFragment<VB : ViewDataBinding, out BVM : BaseViewModel<BaseRe
     protected open val viewModel: BVM by lazy {
         ViewModelProvider(this)[viewModelClass.java]
     }
-    val localData: LocalSharedPreferences by lazy {
-        LocalSharedPreferences.getInstance()
-    }
+
+    @Inject
+    lateinit var localData: LocalSharedPreferences
 
     //Lifecycles
     override fun onCreateView(

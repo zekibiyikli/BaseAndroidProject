@@ -7,5 +7,10 @@
 + Coroutine
 + Flow
 + Room
-- Retrofit
-- Dagger - Hilt
++ Retrofit
++ Dagger - Hilt
+
+
+> [!NOTE]
+> Repolar sayfalara göre ayrılacak.
+

@@ -1,24 +1,39 @@
 package com.android.baseapp.data.server
 
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
-object RetrofitModule {
+@Module
+@InstallIn(SingletonComponent::class)
+object  RetrofitModule{
 
-    val client = OkHttpClient.Builder()
-        .addInterceptor(UserTokenHeader())
-        .build()
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(userTokenHeader: UserTokenHeader): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(userTokenHeader)
+            .build()
+    }
 
-    private val retrofit: Retrofit by lazy {
-        Retrofit.Builder()
+    @Provides
+    @Singleton
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
             .baseUrl(Config.BASE_URL)
-            .client(client)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
-    val api: ApiService by lazy {
-        retrofit.create(ApiService::class.java)
+    @Provides
+    @Singleton
+    fun provideApiService(retrofit: Retrofit): ApiService {
+        return retrofit.create(ApiService::class.java)
     }
 }

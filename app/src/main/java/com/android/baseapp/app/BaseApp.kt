@@ -3,7 +3,9 @@ package com.android.baseapp.app
 import android.app.Application
 import com.android.baseapp.data.local.KotPref
 import com.android.baseapp.data.room.Room
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class BaseApp : Application() {
 
     override fun onCreate() {

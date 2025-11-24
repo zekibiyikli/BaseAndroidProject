@@ -12,22 +12,18 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.android.baseapp.R
 import com.android.baseapp.data.local.LocalSharedPreferences
+import javax.inject.Inject
 import kotlin.reflect.KClass
 
 open class BaseDialogFragment<VB : ViewDataBinding, BVM : BaseViewModel<BaseRepository>>(
-    layoutId: Int,
-    viewModelClass: KClass<BVM>
+    layoutId: Int
 ) : DialogFragment() {
 
-    protected open val viewModel: BVM by lazy {
-        ViewModelProvider(this)[viewModelClass.java]
-    }
     open val binding: VB by lazy {
         DataBindingUtil.inflate(layoutInflater, layoutId, null, false)
     }
-    val localData by lazy {
-        LocalSharedPreferences.getInstance()
-    }
+    @Inject
+    lateinit var localData: LocalSharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,

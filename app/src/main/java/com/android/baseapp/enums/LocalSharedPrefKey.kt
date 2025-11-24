@@ -1,5 +1,6 @@
 package com.android.baseapp.enums
 
 object LocalSharedPrefKey {
-    const val TEST: String = "testlocal"
+    const val IS_FIRST_RUN: String = "isFirstRun"
+    const val USER_TOKEN: String = "userToken"
 }

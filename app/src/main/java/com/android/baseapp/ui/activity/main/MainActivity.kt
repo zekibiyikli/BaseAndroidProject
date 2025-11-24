@@ -1,7 +1,5 @@
 package com.android.baseapp.ui.activity.main
 
-import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -10,10 +8,14 @@ import androidx.navigation.ui.setupWithNavController
 import com.android.baseapp.R
 import com.android.baseapp.core.BaseActivity
 import com.android.baseapp.databinding.ActivityMainBinding
+import com.android.baseapp.ui.fragment.home.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     MainViewModel::class
 ) {
+
     //Variables
     override val getLayoutId: Int
         get() = R.layout.activity_main

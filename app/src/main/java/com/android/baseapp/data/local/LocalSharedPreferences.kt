@@ -22,8 +22,12 @@ class LocalSharedPreferences(private val applicationContext: Context) {
 
     //Functions
     var isFirstRun : Boolean
-        set(value) = pref.edit().putBoolean(LocalSharedPrefKey.TEST,value).apply()
-        get() = pref.getBoolean(LocalSharedPrefKey.TEST,true)
+        set(value) = pref.edit().putBoolean(LocalSharedPrefKey.IS_FIRST_RUN,value).apply()
+        get() = pref.getBoolean(LocalSharedPrefKey.IS_FIRST_RUN,true)
+
+    var userToken : String
+        set(value) = pref.edit().putString(LocalSharedPrefKey.USER_TOKEN,value).apply()
+        get() = pref.getString(LocalSharedPrefKey.USER_TOKEN,"")?:""
 
     //Companion Object
     companion object {
@@ -33,7 +37,12 @@ class LocalSharedPreferences(private val applicationContext: Context) {
             instance = LocalSharedPreferences(context.applicationContext)
         }
 
-        fun getInstance(): LocalSharedPreferences =
-            instance ?: throw IllegalArgumentException("Local data is not initialize")
+        fun getInstance(context: Context): LocalSharedPreferences {
+            return instance ?: synchronized(this) {
+                instance ?: LocalSharedPreferences(context.applicationContext).also {
+                    instance = it
+                }
+            }
+        }
     }
 }
