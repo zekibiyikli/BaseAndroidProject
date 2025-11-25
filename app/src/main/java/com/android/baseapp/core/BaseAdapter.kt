@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.reflect.KClass
 
 abstract class BaseAdapter<Model : BaseModel, VB : ViewDataBinding, VH : BaseViewHolder<Model>>(
+    private val layoutId: Int,
     private val viewBindingType: KClass<VB>,
     private val viewHolderType: KClass<VH>,
     private val itemList: List<Model>,
@@ -50,6 +52,6 @@ abstract class BaseAdapter<Model : BaseModel, VB : ViewDataBinding, VH : BaseVie
     }
 
     override fun getItemViewType(position: Int): Int {
-        return position
+        return layoutId
     }
 }

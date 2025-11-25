@@ -2,15 +2,15 @@ package com.android.baseapp.data.flow
 
 import androidx.lifecycle.MutableLiveData
 
-class ApiResultHandler<T>(private val onSuccess: (T?) -> Unit, private val onFailure: (T?) -> Unit?, private val onLoading: (T?) -> Unit?)  {
+class ApiResultHandler<T,E>(private val onSuccess: (T?) -> Unit, private val onFailure: (E?) -> Unit)  {
 
     var loading = MutableLiveData<Boolean>()
 
-    fun handleApiResult(result: ApiResult<T?>) {
+    fun handleApiResult(result: ApiResult<T?,E?>) {
         when (result.status) {
             ApiStatus.LOADING -> {
                 loading.value = true
-                onLoading(result.data)
+                //onLoading(result.data)
             }
 
             ApiStatus.SUCCESS -> {
@@ -20,7 +20,7 @@ class ApiResultHandler<T>(private val onSuccess: (T?) -> Unit, private val onFai
 
             ApiStatus.ERROR -> {
                 loading.value = false
-                onFailure(result.data)
+                onFailure(result.message)
             }
         }
     }

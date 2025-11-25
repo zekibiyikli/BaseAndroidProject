@@ -1,13 +1,15 @@
 package com.android.baseapp.ui.fragment.home
 
-import androidx.lifecycle.MutableLiveData
 import com.android.baseapp.core.BaseRepository
 import com.android.baseapp.core.BaseViewModel
 import com.android.baseapp.data.flow.ApiResult
 import com.android.baseapp.data.flow.toResultFlow
 import com.android.baseapp.data.server.MainRepo
-import com.android.baseapp.model.response.StateUsaPriceResponse
+import com.android.baseapp.model.ErrorModel
+import com.android.baseapp.model.response.UserResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,13 +17,14 @@ class HomeViewModel @Inject constructor(
     val repo: MainRepo
 ) : BaseViewModel<BaseRepository>(){
 
-    var mutableStateUsaPrice: MutableLiveData<ApiResult<StateUsaPriceResponse>>? = MutableLiveData<ApiResult<StateUsaPriceResponse>>()
-    fun getStateUsaPrice(state:String){
+    private val _usersFlow = MutableSharedFlow<ApiResult<UserResponse, ErrorModel>?>(replay = 0)
+    val usersFlow = _usersFlow.asSharedFlow()
+    fun getRandomUsers(){
         sendRequest {
             toResultFlow {
-                repo.stateUsaPrice("çankaya","Ankara")
+                repo.getRandomUsers()
             }.collect{result->
-                mutableStateUsaPrice?.value=result
+                _usersFlow.emit(result)
             }
         }
     }

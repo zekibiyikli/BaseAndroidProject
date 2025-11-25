@@ -1,12 +1,14 @@
 package com.android.baseapp.data.flow
 
+import com.android.baseapp.model.ErrorModel
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import retrofit2.Response
 
-fun <T> toResultFlow(call: suspend () -> Response<T>?) : Flow<ApiResult<T & Any>> {
+fun <T:Any> toResultFlow(call: suspend () -> Response<T>?) : Flow<ApiResult<T, ErrorModel>> {
 
     return flow {
         emit(ApiResult.Loading(null, true))
@@ -18,12 +20,12 @@ fun <T> toResultFlow(call: suspend () -> Response<T>?) : Flow<ApiResult<T & Any>
                         emit(ApiResult.Success(it))
                     }
                 } else {
-                    c.errorBody()?.let {
-                        emit(ApiResult.Error(it.string()))
-                    }
+                    val errorBody = c.errorBody()?.string()
+                    val errorResponse = Gson().fromJson(errorBody, ErrorModel::class.java)
+                    emit(ApiResult.Error(errorResponse))
                 }
-            }catch (e: Exception){
-                emit(ApiResult.Error(e.toString()))
+            }catch (_: Exception){
+                emit(ApiResult.Error(null))
             }
         }
     }.flowOn(Dispatchers.IO)

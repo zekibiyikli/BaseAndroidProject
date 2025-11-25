@@ -1,16 +1,25 @@
 package com.android.baseapp.ui.fragment.home
 
+import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.android.baseapp.R
+import com.android.baseapp.adapter.user.UserAdapter
 import com.android.baseapp.core.BaseFragment
 import com.android.baseapp.data.flow.ApiResult
 import com.android.baseapp.data.flow.ApiResultHandler
 import com.android.baseapp.databinding.FragmentHomeBinding
-import com.android.baseapp.ext.notNullObserver
-import com.android.baseapp.model.response.StateUsaPriceResponse
+import com.android.baseapp.model.ErrorModel
+import com.android.baseapp.model.UserModel
+import com.android.baseapp.model.response.UserResponse
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
@@ -21,29 +30,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     override val getLayoutId: Int
         get() = R.layout.fragment_home
 
-    //Observers
-    private val observerStateUsaPrice: Observer<in ApiResult<StateUsaPriceResponse?>> = notNullObserver{ data ->
-        Log.e("Zeki","Girdiiii")
-        val apiResultHandler = ApiResultHandler<StateUsaPriceResponse?>(
-            onSuccess = {
-                Log.e("Zeki","onSuccess")
-                it?.result?.let {result->
-
-                }
-            },
-            onFailure = {
-
-            },
-            onLoading = {}
-        )
-        apiResultHandler.handleApiResult(data)
-    }
+    private lateinit var userAdapter: UserAdapter
 
     //Lifecycles
     override fun initView() {
-        val textView: TextView = binding.textHome
-        textView.text="HOME"
-        viewModel.getStateUsaPrice("WA")
+        viewModel.getRandomUsers()
     }
 
     override fun initListeners() {
@@ -55,8 +46,51 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
 
     override fun initObservers() {
         super.initObservers()
-        with(viewModel){
-            mutableStateUsaPrice?.observe(this@HomeFragment,observerStateUsaPrice)
+        viewLifecycleOwner.lifecycleScope.launch {
+            launch { viewModel.usersFlow.collectLatest{it?.let { observerUsers(it) }} }
         }
     }
+
+    private fun setList(list: ArrayList<UserModel>){
+        userAdapter = UserAdapter(
+            list,
+            ::userClickListener,
+            ::userLongClickListener,
+            requireContext()
+        )
+        binding.rvUsers.apply {
+            adapter = userAdapter
+            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        }
+
+    }
+
+    private fun userClickListener(user: UserModel?) {
+        user?.let {
+
+        }
+    }
+
+    private fun userLongClickListener(user: UserModel?) {
+        user?.let {
+
+        }
+    }
+
+
+    //Observers
+    private fun observerUsers(data:ApiResult<UserResponse, ErrorModel>){
+        ApiResultHandler<UserResponse?, ErrorModel>(
+            onSuccess = {
+                it?.results?.let { result->
+                    Log.e("Zeki","onSuccess=>${result.size.toString()}")
+                    setList(result)
+                }
+            },
+            onFailure = {
+                Log.e("Zeki","onFailure=>${it?.message.toString()}")
+            }
+        ).handleApiResult(data)
+    }
+
 }

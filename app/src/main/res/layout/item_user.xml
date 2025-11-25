@@ -21,21 +21,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <!--<androidx.cardview.widget.CardView
-                        android:id="@+id/cardView5"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginBottom="24dp"
-                        app:cardBackgroundColor="@color/main_background_color2"
-                        app:cardCornerRadius="50dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">-->
-
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/userImage"
+                    android:id="@+id/imgUser"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginStart="20dp"
@@ -48,35 +35,20 @@
                     app:shapeAppearanceOverlay="@style/circularImageView"
                     app:srcCompat="@drawable/ic_launcher_foreground" />
 
-                    <TextView
-                        android:id="@+id/title"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:textColor="@color/teal_200"
                         android:textSize="16sp"
-                        app:layout_constraintBottom_toTopOf="@+id/time"
-                        app:layout_constraintStart_toEndOf="@+id/userImage"
-                        app:layout_constraintTop_toTopOf="@+id/userImage"
-                        app:layout_constraintVertical_chainStyle="packed"
+                        app:layout_constraintBottom_toTopOf="@+id/tvCity"
+                        app:layout_constraintStart_toEndOf="@+id/imgUser"
+                        app:layout_constraintTop_toTopOf="@+id/imgUser"
                         tools:text="Monika" />
-                <!--it may using again-->
-                <!--TextView
-                    android:id="@+id/notificationType"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="8dp"
-                    android:fontFamily="@font/lineto_circular_pro_book"
-                    android:text="NotificationType"
-                    android:textColor="@color/main_text_color"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/userImage"
-                    app:layout_constraintTop_toBottomOf="@+id/title" />-->
 
-                    <TextView
-                        android:id="@+id/time"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvCity"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
@@ -84,9 +56,9 @@
                         android:lineSpacingExtra="0dp"
                         android:textColor="@color/teal_200"
                         android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/userImage"
-                        app:layout_constraintStart_toEndOf="@+id/userImage"
-                        app:layout_constraintTop_toBottomOf="@+id/title"
+                        app:layout_constraintBottom_toBottomOf="@+id/imgUser"
+                        app:layout_constraintStart_toEndOf="@+id/imgUser"
+                        app:layout_constraintTop_toBottomOf="@+id/tvName"
                         tools:text="2 days ago" />
 
                     <View
@@ -95,8 +67,7 @@
                         android:layout_height="1dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/title" />
-
+                        app:layout_constraintStart_toStartOf="@+id/tvName" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
