@@ -18,6 +18,7 @@ import com.android.baseapp.databinding.FragmentHomeBinding
 import com.android.baseapp.model.ErrorModel
 import com.android.baseapp.model.UserModel
 import com.android.baseapp.model.response.UserResponse
+import com.android.baseapp.ui.activity.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -37,6 +38,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     override fun initView() {
         showShimmer()
         viewModel.getRandomUsers()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as MainActivity).showHideBottomNavigation(true)
     }
 
     override fun initListeners() {
@@ -74,7 +80,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
 
     private fun userClickListener(user: UserModel?) {
         user?.let {
-
+            findNavController().navigate(R.id.action_navigation_home_to_userDetailFragment)
         }
     }
 

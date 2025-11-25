@@ -20,14 +20,28 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
     override val getLayoutId: Int
         get() = R.layout.activity_main
 
+    var navView: BottomNavigationView?=null
+
     //lifecycles
     override fun initView() {
-        val navView: BottomNavigationView = binding.navView
+        navView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        navView.setupWithNavController(navController)
+        navView?.setupWithNavController(navController)
 
         viewModel.readDataStore(this)
+    }
+
+    fun showHideBottomNavigation(isShow:Boolean){
+        if (isShow){
+            navView?.let {
+                it.animate().translationY(0f)
+            }
+        }else{
+            navView?.let {
+                it.animate().translationY(it.height.toFloat())
+            }
+        }
     }
 
     //Companion Object

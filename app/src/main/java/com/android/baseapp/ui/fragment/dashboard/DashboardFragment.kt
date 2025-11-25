@@ -3,6 +3,7 @@ package com.android.baseapp.ui.fragment.dashboard
 import android.util.Log
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.baseapp.R
@@ -16,6 +17,7 @@ import com.android.baseapp.databinding.FragmentDashboardBinding
 import com.android.baseapp.model.ErrorModel
 import com.android.baseapp.model.UserModel
 import com.android.baseapp.model.response.UserResponse
+import com.android.baseapp.ui.activity.main.MainActivity
 import com.android.baseapp.ui.fragment.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -36,6 +38,11 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
     override fun initView() {
         showShimmer()
         viewModel.getRandomUsers()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as MainActivity).showHideBottomNavigation(true)
     }
 
     override fun initListeners() {
@@ -69,7 +76,9 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
     }
 
     private fun userClickListener(user: UserModel?) {
-        user?.let {}
+        user?.let {
+            findNavController().navigate(R.id.action_navigation_dashboard_to_userDetailFragment)
+        }
     }
 
     private fun userLongClickListener(user: UserModel?) {

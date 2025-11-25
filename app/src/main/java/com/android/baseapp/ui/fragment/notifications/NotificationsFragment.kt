@@ -2,6 +2,7 @@ package com.android.baseapp.ui.fragment.notifications
 
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ import com.android.baseapp.adapter.user2.User2Adapter
 import com.android.baseapp.core.BaseFragment
 import com.android.baseapp.databinding.FragmentNotificationsBinding
 import com.android.baseapp.model.UserModel
+import com.android.baseapp.ui.activity.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -31,6 +33,11 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding, Notific
         showShimmer()
         setList()
         getData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as MainActivity).showHideBottomNavigation(true)
     }
 
     override fun initListeners() {
@@ -70,7 +77,9 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding, Notific
     }
 
     private fun userClickListener(user: UserModel?) {
-        user?.let {}
+        user?.let {
+            findNavController().navigate(R.id.action_navigation_notifications_to_userDetailFragment)
+        }
     }
 
     private fun userLongClickListener(user: UserModel?) {
