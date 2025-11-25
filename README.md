@@ -19,10 +19,12 @@
 
 > [!NOTE]
 > Repolar sayfalara göre ayrılacak.
+> 
 > 3 farklı adapter yapısı var. 
 >   - Default
 >   - DiffUtils 
 >   - Pagging. 
+> 
 > 3 farklı local data yapısı var. 
 >   - SharedPreferences
 >   - KotPref 
