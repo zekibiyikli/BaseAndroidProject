@@ -73,12 +73,11 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
         ApiResultHandler<UserResponse?, ErrorModel>(
             onSuccess = {
                 it?.results?.let { result->
-                    Log.e("Zeki","onSuccess=>${result.size.toString()}")
                     setList(result)
                 }
             },
             onFailure = {
-                Log.e("Zeki","onFailure=>${it?.message.toString()}")
+
             }
         ).handleApiResult(data)
     }

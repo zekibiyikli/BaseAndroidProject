@@ -1,4 +1,4 @@
-package com.android.baseapp.data.local
+package com.android.baseapp.data.local.lsp
 
 import android.content.Context
 import dagger.Module

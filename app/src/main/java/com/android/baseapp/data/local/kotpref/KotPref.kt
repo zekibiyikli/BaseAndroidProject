@@ -1,4 +1,4 @@
-package com.android.baseapp.data.local
+package com.android.baseapp.data.local.kotpref
 
 import android.content.Context
 import com.chibatching.kotpref.Kotpref

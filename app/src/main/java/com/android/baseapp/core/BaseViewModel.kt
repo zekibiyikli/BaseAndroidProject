@@ -4,9 +4,6 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.baseapp.data.local.LocalSharedPreferences
-import com.android.baseapp.data.server.MainRepo
-import com.android.baseapp.data.server.RetrofitModule
 import com.android.baseapp.model.ErrorModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -16,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 abstract class BaseViewModel<R : BaseRepository>() : ViewModel(), CoroutineScope {
@@ -31,7 +27,6 @@ abstract class BaseViewModel<R : BaseRepository>() : ViewModel(), CoroutineScope
     //Observers
     val coroutineExceptionHandler: CoroutineExceptionHandler? = try {
         CoroutineExceptionHandler { _, throwable ->
-            Log.e("Zeki",throwable.toString())
             if (throwable is HttpException) {
 
             }
@@ -54,7 +49,6 @@ abstract class BaseViewModel<R : BaseRepository>() : ViewModel(), CoroutineScope
                 }
             }
         } else {
-            Log.e("Zeki","errorrrr")
             val errorModel = errorDataModelFillUp("Error", "")
             generalError.postValue(errorModel)
         }

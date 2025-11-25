@@ -1,6 +1,6 @@
 package com.android.baseapp.data.server
 
-import com.android.baseapp.data.local.LocalSharedPreferences
+import com.android.baseapp.data.local.lsp.LocalSharedPreferences
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject

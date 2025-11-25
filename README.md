@@ -14,12 +14,17 @@
 + Lottie
 + Paging 3
 + DiffUtils
-
-- DataStore => Kotpref yerine
++ DataStore
 
 
 > [!NOTE]
 > Repolar sayfalara göre ayrılacak.
-> 3 farklı adapter yapısı var. Default, DiffUtils ve Pagging. 
-> Local Data için KotPref veya DataStore
-
+> 3 farklı adapter yapısı var. 
+>   - Default
+>   - DiffUtils 
+>   - Pagging. 
+> 3 farklı local data yapısı var. 
+>   - SharedPreferences
+>   - KotPref 
+>   - DataStore
+    

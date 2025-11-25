@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProvider
-import com.android.baseapp.data.local.LocalSharedPreferences
+import com.android.baseapp.data.local.lsp.LocalSharedPreferences
 import javax.inject.Inject
 import kotlin.reflect.KClass
 

@@ -27,6 +27,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
 
+        viewModel.readDataStore(this)
     }
 
     //Companion Object

@@ -8,12 +8,10 @@ import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
 import com.android.baseapp.R
-import com.android.baseapp.data.local.LocalSharedPreferences
+import com.android.baseapp.data.local.lsp.LocalSharedPreferences
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import javax.inject.Inject
-import kotlin.reflect.KClass
 
 //Bottom Sheet Dialog Fragment
 open class BaseBSDialogFragment <VB : ViewDataBinding>(

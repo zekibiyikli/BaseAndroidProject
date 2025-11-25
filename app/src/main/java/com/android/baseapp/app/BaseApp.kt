@@ -1,7 +1,7 @@
 package com.android.baseapp.app
 
 import android.app.Application
-import com.android.baseapp.data.local.KotPref
+import com.android.baseapp.data.local.kotpref.KotPref
 import com.android.baseapp.data.room.Room
 import dagger.hilt.android.HiltAndroidApp
 

@@ -22,6 +22,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, SplashViewModel>(
 
     //lifecycles
     override fun initView() {
+
+        viewModel.setDataStore(this)
+
         Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
