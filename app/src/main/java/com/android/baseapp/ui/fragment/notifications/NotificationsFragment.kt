@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.baseapp.R
+import com.android.baseapp.adapter.shimmer.ShimmerAdapter
 import com.android.baseapp.adapter.user2.User2Adapter
 import com.android.baseapp.core.BaseFragment
 import com.android.baseapp.databinding.FragmentNotificationsBinding
@@ -27,6 +28,7 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding, Notific
 
     //Lifecycles
     override fun initView() {
+        showShimmer()
         setList()
         getData()
     }
@@ -48,6 +50,12 @@ class NotificationsFragment : BaseFragment<FragmentNotificationsBinding, Notific
                 userAdapter.submitData(pagingData)
             }
         }
+    }
+
+    //Functions
+    private fun showShimmer(){
+        binding.rvUsers.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvUsers.adapter = ShimmerAdapter()
     }
 
     private fun setList(){

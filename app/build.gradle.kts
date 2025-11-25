@@ -103,4 +103,6 @@ dependencies {
     kapt(libs.hilt.navigation)
     //Security
     implementation(libs.androidx.security)
+    //Shimmer
+    implementation(libs.shimmer)
 }

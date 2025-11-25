@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.baseapp.R
+import com.android.baseapp.adapter.shimmer.ShimmerAdapter
 import com.android.baseapp.adapter.user.UserAdapter
 import com.android.baseapp.adapter.user3.User3Adapter
 import com.android.baseapp.core.BaseFragment
@@ -33,6 +34,7 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
 
     //Lifecycles
     override fun initView() {
+        showShimmer()
         viewModel.getRandomUsers()
     }
 
@@ -45,6 +47,12 @@ class DashboardFragment : BaseFragment<FragmentDashboardBinding, DashboardViewMo
         viewLifecycleOwner.lifecycleScope.launch {
             launch { viewModel.usersFlow.collectLatest{it?.let { observerUsers(it) }} }
         }
+    }
+
+    //Functions
+    private fun showShimmer(){
+        binding.rvUsers.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvUsers.adapter = ShimmerAdapter()
     }
 
     private fun setList(list: ArrayList<UserModel>){

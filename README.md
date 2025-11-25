@@ -15,7 +15,7 @@
 + Paging 3
 + DiffUtils
 + DataStore
-
++ Shimmer
 
 > [!NOTE]
 > Repolar sayfalara göre ayrılacak.

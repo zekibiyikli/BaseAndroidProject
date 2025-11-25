@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.android.baseapp.R
+import com.android.baseapp.adapter.shimmer.ShimmerAdapter
 import com.android.baseapp.adapter.user.UserAdapter
 import com.android.baseapp.core.BaseFragment
 import com.android.baseapp.data.flow.ApiResult
@@ -34,6 +35,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
 
     //Lifecycles
     override fun initView() {
+        showShimmer()
         viewModel.getRandomUsers()
     }
 
@@ -49,6 +51,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
         viewLifecycleOwner.lifecycleScope.launch {
             launch { viewModel.usersFlow.collectLatest{it?.let { observerUsers(it) }} }
         }
+    }
+
+    private fun showShimmer(){
+        binding.rvUsers.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvUsers.adapter = ShimmerAdapter()
     }
 
     private fun setList(list: ArrayList<UserModel>){
